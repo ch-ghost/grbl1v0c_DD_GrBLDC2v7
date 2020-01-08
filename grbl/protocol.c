@@ -245,12 +245,13 @@ void protocol_exec_rt_system()
         // incoming stream. The same could be said about soft limits. While the position is not 
         // lost, streaming could cause a serious crash if it continues afterwards.
         
-// TODO: Allow status reports during a critical alarm. Still need to think about implications of this.
-        // if (sys_rt_exec_state & EXEC_STATUS_REPORT) { 
+		/*Allow status reports during a critical alarm. Still need to think about implications of this.
+        //if (EXEC_STATUS_REPORT) { 
         //   report_realtime_status();
         //   system_clear_exec_state_flag(EXEC_STATUS_REPORT); 
-        // }
-
+         }
+		*/
+		 
       } while (bit_isfalse(sys_rt_exec_state,EXEC_RESET));
     }
     system_clear_exec_alarm_flag(0xFF); // Clear all alarm flags

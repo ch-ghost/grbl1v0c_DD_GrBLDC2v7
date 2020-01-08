@@ -20,7 +20,6 @@
 
 #include "grbl.h"
 
-
 void system_init()
 {
   CONTROL_DDR &= ~(CONTROL_MASK); // Configure as input pins
@@ -76,6 +75,10 @@ ISR(CONTROL_INT_vect)
         bit_true(sys_rt_exec_state, EXEC_SAFETY_DOOR);
     #endif
     } 
+  }
+  else {  //JTS added //Since nothing else happened, the noisy probe tripped.  Note we don't check again because the pin is noisy.
+    CONTROL_PCMSK = CONTROL_MASK; //JTS added //Disable probe interrupts to prevent multiple probe interrupts (noisy signal).
+    sys.probe_interrupt_occurred = 1; //JTS added //tell the probe_get_state that the probe tripped.
   }
 }
 

@@ -270,7 +270,8 @@ void mc_homing_cycle()
   protocol_buffer_synchronize();
 
   // Initialize probing control variables
-  sys.probe_succeeded = false; // Re-initialize probe history before beginning cycle.  
+  sys.probe_succeeded = false; // Re-initialize probe history before beginning cycle. 
+  
   probe_configure_invert_mask(is_probe_away);
   
   // After syncing, check if probe is already triggered. If so, halt and issue alarm.
@@ -280,6 +281,10 @@ void mc_homing_cycle()
     protocol_execute_realtime();
   }
   if (sys.abort) { return; } // Return if system reset has been issued.
+
+  //Enable probe interrupt pin mask
+  CONTROL_PCMSK = (CONTROL_MASK | PROBE_MASK);  //JTS added.  Later on: 'ISR(CONTROL_INT_vect)' disables probe interrupts
+  sys.probe_interrupt_occurred = 0;	//JTS added.  Initialize whether the probe occurred.
 
   // Setup and queue probing motion. Auto cycle-start should not start the cycle.
   #ifdef USE_LINE_NUMBERS

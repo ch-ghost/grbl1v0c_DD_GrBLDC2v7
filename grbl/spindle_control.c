@@ -21,6 +21,42 @@
 
 #include "grbl.h"
 
+//LUT to find corresponding PWM->RPM register value
+//Substitutes requested 8bit PWM counter value with empirical RPM data
+	static const __flash uint8_t lookup[256] = {
+		0,	0,	59,	67,	73,	78,	82,	86,
+		89,	93,	96,	98,	101,	103,	106,	108,
+		110,	112,	114,	116,	118,	119,	121,	123,
+		124,	126,	127,	129,	130,	132,	133,	134,
+		136,	137,	138,	139,	141,	142,	143,	144,
+		145,	146,	147,	148,	149,	150,	151,	152,
+		153,	154,	155,	156,	157,	158,	159,	160,
+		161,	162,	162,	163,	164,	165,	166,	166,
+		167,	168,	169,	170,	170,	171,	172,	173,
+		173,	174,	175,	176,	176,	177,	178,	178,
+		179,	180,	180,	181,	182,	182,	183,	184,
+		184,	185,	186,	186,	187,	187,	188,	189,
+		189,	190,	190,	191,	192,	192,	193,	193,
+		194,	194,	195,	196,	196,	197,	197,	198,
+		198,	199,	199,	200,	200,	201,	201,	202,
+		203,	203,	204,	204,	205,	205,	206,	206,
+		207,	207,	208,	208,	208,	209,	209,	210,
+		210,	211,	211,	212,	212,	213,	213,	214,
+		214,	215,	215,	215,	216,	216,	217,	217,
+		218,	218,	219,	219,	219,	220,	220,	221,
+		221,	222,	222,	222,	223,	223,	224,	224,
+		224,	225,	225,	226,	226,	226,	227,	227,
+		228,	228,	228,	229,	229,	230,	230,	230,
+		231,	231,	231,	232,	232,	233,	233,	233,
+		234,	234,	234,	235,	235,	236,	236,	236,
+		237,	237,	237,	238,	238,	238,	239,	239,
+		240,	240,	240,	241,	241,	241,	242,	242,
+		242,	243,	243,	243,	244,	244,	244,	245,
+		245,	245,	246,	246,	246,	247,	247,	247,
+		248,	248,	248,	249,	249,	249,	250,	250,
+		250,	251,	251,	251,	252,	252,	252,	252,
+		253,	253,	253,	254,	254,	254,	255,	255
+		};
 
 void spindle_init()
 {    
@@ -93,28 +129,41 @@ void spindle_set_state(uint8_t state, float rpm)
     #ifdef VARIABLE_SPINDLE
 
       // TODO: Install the optional capability for frequency-based output for servos.
-      uint8_t current_pwm;  // 328p PWM register is 8-bit.
+      uint8_t setpoint_pwm;  // 328p PWM register is 8-bit.
 
       // Calculate PWM register value based on rpm max/min settings and programmed rpm.
-      if (rpm <= 0.0) { spindle_stop(); } // RPM should never be negative, but check anyway.
+      if (rpm < 0.0) { spindle_stop(); } // RPM should never be negative, but check anyway.
       else {
         if (settings.rpm_max <= settings.rpm_min) {
           // No PWM range possible. Set simple on/off spindle control pin state.
-          current_pwm = SPINDLE_PWM_MAX_VALUE;
+          setpoint_pwm = SPINDLE_PWM_MAX_VALUE;
         } else {
           if (rpm > settings.rpm_max) { rpm = settings.rpm_max; }
           if (rpm < settings.rpm_min) { rpm = settings.rpm_min; }
           #ifdef SPINDLE_MINIMUM_PWM
             float pwm_gradient = (SPINDLE_PWM_MAX_VALUE-SPINDLE_MINIMUM_PWM)/(settings.rpm_max-settings.rpm_min);
-            current_pwm = floor( (rpm-settings.rpm_min)*pwm_gradient + (SPINDLE_MINIMUM_PWM+0.5));
+            setpoint_pwm = floor( (rpm-settings.rpm_min)*pwm_gradient + (SPINDLE_MINIMUM_PWM+0.5));
           #else
             float pwm_gradient = (SPINDLE_PWM_MAX_VALUE)/(settings.rpm_max-settings.rpm_min);
-            current_pwm = floor( (rpm-settings.rpm_min)*pwm_gradient + 0.5);
+            setpoint_pwm = floor( (rpm-settings.rpm_min)*pwm_gradient + 0.5);
           #endif
         }
-      
-        SPINDLE_OCR_REGISTER = current_pwm; // Set PWM output level.
-        SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
+		//JTS changes
+		SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
+		
+		setpoint_pwm = lookup[setpoint_pwm]; //LUT to find corresponding PWM->RPM register value
+		
+		uint8_t temp_pwm = SPINDLE_OCR_REGISTER; //get previous PWM register value
+		while(temp_pwm != setpoint_pwm) {
+			if(temp_pwm > setpoint_pwm) {
+				temp_pwm -= 1;
+			} else {
+				temp_pwm += 1;
+			}
+			SPINDLE_OCR_REGISTER = temp_pwm; // Set PWM output level.
+			delay_ms(2);
+		}
+		//end JTS changes
     
         // On the Uno, spindle enable and PWM are shared, unless otherwise specified.
         #if defined(USE_SPINDLE_DIR_AS_ENABLE_PIN) 
