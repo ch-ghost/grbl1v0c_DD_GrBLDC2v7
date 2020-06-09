@@ -1,13 +1,13 @@
-This is an unofficial port of grbl1.1h to function on a GG2.
-I am not affiliated with any entity including grbl or DD.
-USE THIS REPO AT YOUR OWN RISK AS IT IS AN EXPERIMENTAL PROJECT
+This is an unofficial port of grbl1.1h to function on a GG2.  
+I am not affiliated with any entity including grbl or DD.  
+USE THIS REPO AT YOUR OWN RISK AS IT IS AN EXPERIMENTAL PROJECT. 
 
 
 
 ![GitHub Logo](https://github.com/gnea/gnea-Media/blob/master/Grbl%20Logo/Grbl%20Logo%20250px.png?raw=true)
 
 ***
-_Click the `Release` tab to download pre-compiled `.hex` files or just [click here](/releases)_
+_Click the `Release` tab to download pre-compiled `.hex` files or just [click here](https://github.com/ch-ghost/grbl1.1h-gg2-port/releases)_
 ***
 Grbl is a no-compromise, high performance, low cost alternative to parallel-port-based motion control for CNC milling. This version of Grbl runs on an Arduino with a 328p processor (Uno, Duemilanove, Nano, Micro, etc).
 
