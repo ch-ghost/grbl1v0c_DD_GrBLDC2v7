@@ -58,7 +58,7 @@ uint8_t probe_get_state() { return((PROBE_PIN & PROBE_MASK) ^ probe_invert_mask)
 // NOTE: This function must be extremely efficient as to not bog down the stepper ISR.
 void probe_state_monitor()
 {
-  if (probe_get_state()) {
+  if (sys.probe_interrupt_occurred) {    //JTS changed from 'probe_get_state'
     sys_probe_state = PROBE_OFF;
     memcpy(sys_probe_position, sys_position, sizeof(sys_position));
     bit_true(sys_rt_exec_state, EXEC_MOTION_CANCEL);

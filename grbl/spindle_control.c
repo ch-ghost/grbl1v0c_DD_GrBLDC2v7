@@ -22,6 +22,43 @@
 #include "grbl.h"
 
 
+//LUT to find corresponding PWM->RPM register value
+//Substitutes requested 8bit PWM counter value with empirical RPM data
+	static const __flash uint8_t lookup[256] = {
+		0,	0,	59,	67,	73,	78,	82,	86,
+		89,	93,	96,	98,	101,	103,	106,	108,
+		110,	112,	114,	116,	118,	119,	121,	123,
+		124,	126,	127,	129,	130,	132,	133,	134,
+		136,	137,	138,	139,	141,	142,	143,	144,
+		145,	146,	147,	148,	149,	150,	151,	152,
+		153,	154,	155,	156,	157,	158,	159,	160,
+		161,	162,	162,	163,	164,	165,	166,	166,
+		167,	168,	169,	170,	170,	171,	172,	173,
+		173,	174,	175,	176,	176,	177,	178,	178,
+		179,	180,	180,	181,	182,	182,	183,	184,
+		184,	185,	186,	186,	187,	187,	188,	189,
+		189,	190,	190,	191,	192,	192,	193,	193,
+		194,	194,	195,	196,	196,	197,	197,	198,
+		198,	199,	199,	200,	200,	201,	201,	202,
+		203,	203,	204,	204,	205,	205,	206,	206,
+		207,	207,	208,	208,	208,	209,	209,	210,
+		210,	211,	211,	212,	212,	213,	213,	214,
+		214,	215,	215,	215,	216,	216,	217,	217,
+		218,	218,	219,	219,	219,	220,	220,	221,
+		221,	222,	222,	222,	223,	223,	224,	224,
+		224,	225,	225,	226,	226,	226,	227,	227,
+		228,	228,	228,	229,	229,	230,	230,	230,
+		231,	231,	231,	232,	232,	233,	233,	233,
+		234,	234,	234,	235,	235,	236,	236,	236,
+		237,	237,	237,	238,	238,	238,	239,	239,
+		240,	240,	240,	241,	241,	241,	242,	242,
+		242,	243,	243,	243,	244,	244,	244,	245,
+		245,	245,	246,	246,	246,	247,	247,	247,
+		248,	248,	248,	249,	249,	249,	250,	250,
+		250,	251,	251,	251,	252,	252,	252,	252,
+		253,	253,	253,	254,	254,	254,	255,	255
+		};
+
 #ifdef VARIABLE_SPINDLE
   static float pwm_gradient; // Precalulated value to speed up rpm to PWM conversions.
 #endif
@@ -121,12 +158,27 @@ void spindle_stop()
   // and stepper ISR. Keep routine small and efficient.
   void spindle_set_speed(uint8_t pwm_value)
   {
-    SPINDLE_OCR_REGISTER = pwm_value; // Set PWM output level.
+//    SPINDLE_OCR_REGISTER = pwm_value; // Set PWM output level.
     #ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
       if (pwm_value == SPINDLE_PWM_OFF_VALUE) {
         spindle_stop();
       } else {
-        SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
+	//JTS changes
+	SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
+	
+	pwm_value = lookup[pwm_value]; //LUT to find corresponding PWM->RPM register value
+	
+	uint8_t temp_pwm = SPINDLE_OCR_REGISTER; //get previous PWM register value
+	while(temp_pwm != pwm_value) {
+		if(temp_pwm > pwm_value) {
+			temp_pwm -= 1;
+		} else {
+			temp_pwm += 1;
+		}
+		SPINDLE_OCR_REGISTER = temp_pwm; // Set PWM output level.
+		delay_ms(2);
+	}
+	//end JTS changes
         #ifdef INVERT_SPINDLE_ENABLE_PIN
           SPINDLE_ENABLE_PORT &= ~(1<<SPINDLE_ENABLE_BIT);
         #else
@@ -137,7 +189,22 @@ void spindle_stop()
       if (pwm_value == SPINDLE_PWM_OFF_VALUE) {
         SPINDLE_TCCRA_REGISTER &= ~(1<<SPINDLE_COMB_BIT); // Disable PWM. Output voltage is zero.
       } else {
-        SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
+	//JTS changes
+	SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
+	
+	pwm_value = lookup[pwm_value]; //LUT to find corresponding PWM->RPM register value
+	
+	uint8_t temp_pwm = SPINDLE_OCR_REGISTER; //get previous PWM register value
+	while(temp_pwm != pwm_value) {
+		if(temp_pwm > pwm_value) {
+			temp_pwm -= 1;
+		} else {
+			temp_pwm += 1;
+		}
+		SPINDLE_OCR_REGISTER = temp_pwm; // Set PWM output level.
+		delay_ms(2);
+	}
+	//end JTS changes
       }
     #endif
   }
@@ -155,7 +222,7 @@ void spindle_stop()
         rpm = RPM_MAX;
         pwm_value = SPINDLE_PWM_MAX_VALUE;
       } else if (rpm <= RPM_MIN) {
-        if (rpm == 0.0) { // S0 disables spindle
+        if (rpm < 0.0) { // S0 disables spindle
           pwm_value = SPINDLE_PWM_OFF_VALUE;
         } else {
           rpm = RPM_MIN;
@@ -199,7 +266,7 @@ void spindle_stop()
         sys.spindle_speed = settings.rpm_max;
         pwm_value = SPINDLE_PWM_MAX_VALUE;
       } else if (rpm <= settings.rpm_min) {
-        if (rpm == 0.0) { // S0 disables spindle
+        if (rpm < 0.0) { // S0 disables spindle
           sys.spindle_speed = 0.0;
           pwm_value = SPINDLE_PWM_OFF_VALUE;
         } else { // Set minimum PWM output

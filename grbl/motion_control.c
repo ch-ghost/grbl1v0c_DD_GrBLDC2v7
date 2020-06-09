@@ -277,6 +277,10 @@ uint8_t mc_probe_cycle(float *target, plan_line_data_t *pl_data, uint8_t parser_
     return(GC_PROBE_FAIL_INIT); // Nothing else to do but bail.
   }
 
+  //Enable probe interrupt pin mask
+  CONTROL_PCMSK = (CONTROL_MASK | PROBE_MASK);  //JTS added.  Later on: 'ISR(CONTROL_INT_vect)' disables probe interrupts
+  sys.probe_interrupt_occurred = 0;	//JTS added.  Initialize whether the probe occurred.
+
   // Setup and queue probing motion. Auto cycle-start should not start the cycle.
   mc_line(target, pl_data);
 
