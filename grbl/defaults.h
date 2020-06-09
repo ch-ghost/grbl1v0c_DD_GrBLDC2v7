@@ -2,7 +2,7 @@
   defaults.h - defaults settings configuration file
   Part of Grbl
 
-  Copyright (c) 2012-2015 Sungeun K. Jeon
+  Copyright (c) 2012-2016 Sungeun K. Jeon for Gnea Research LLC
 
   Grbl is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 */
 
 /* The defaults.h file serves as a central default settings selector for different machine
-   types, from DIY CNC mills to CNC conversions of off-the-shelf machines. The settings 
+   types, from DIY CNC mills to CNC conversions of off-the-shelf machines. The settings
    files listed here are supplied by users, so your results may vary. However, this should
    give you a good starting point as you get to know your machine and tweak the settings for
    your nefarious needs.
@@ -29,38 +29,40 @@
 
 #ifdef DEFAULTS_GENERIC
   // Grbl generic default settings. Should work across different machines.
-  #define DEFAULT_X_STEPS_PER_MM 400.0
-  #define DEFAULT_Y_STEPS_PER_MM 400.0
-  #define DEFAULT_Z_STEPS_PER_MM 400.0
-  #define DEFAULT_X_MAX_RATE 1000.0 // mm/min
-  #define DEFAULT_Y_MAX_RATE 1000.0 // mm/min
-  #define DEFAULT_Z_MAX_RATE 1000.0 // mm/min
-  #define DEFAULT_X_ACCELERATION (30.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_Y_ACCELERATION (30.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_Z_ACCELERATION (30.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 75.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 176.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 60.5 // mm
-  #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
+  #define DEFAULT_X_STEPS_PER_MM 250.0
+  #define DEFAULT_Y_STEPS_PER_MM 250.0
+  #define DEFAULT_Z_STEPS_PER_MM 250.0
+  #define DEFAULT_X_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_Y_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_Z_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_X_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_X_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK 1
-  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK 127 //enable all (search 'settings.status_report_mask' in settings.h)
-  #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
+  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.01 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
-  #define DEFAULT_SOFT_LIMIT_ENABLE 1
-  #define DEFAULT_HARD_LIMIT_ENABLE 1
-  #define DEFAULT_HOMING_ENABLE 1
-  #define DEFAULT_HOMING_DIR_MASK 1 // move positive dir
-  #define DEFAULT_HOMING_FEED_RATE 50.0 // mm/min
-  #define DEFAULT_HOMING_SEEK_RATE 1050.0 // mm/min
-  #define DEFAULT_HOMING_DEBOUNCE_DELAY 5 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 0.7 // mm
+  #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
+  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
+  #define DEFAULT_HOMING_ENABLE 0  // false
+  #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
+  #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
+  #define DEFAULT_HOMING_SEEK_RATE 500.0 // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 1.0 // mm
 #endif
 
 #ifdef DEFAULTS_SHERLINE_5400
@@ -78,16 +80,16 @@
   #define DEFAULT_X_ACCELERATION (50.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (50.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (50.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 225.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 125.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 170.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 225.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 125.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 170.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 2800.0 // rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm  
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS)|(1<<Z_AXIS))  
+  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS)|(1<<Z_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.01 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // true
@@ -95,12 +97,52 @@
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 50.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 635.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+#endif
+
+#ifdef DEFAULTS_POCKETNC_FR4
+  // Description: Pocket NC FR4 CNC mill.
+  #define DEFAULT_X_STEPS_PER_MM 800.0
+  #define DEFAULT_Y_STEPS_PER_MM 800.0
+  #define DEFAULT_Z_STEPS_PER_MM 800.0
+  #define DEFAULT_X_MAX_RATE 300.0 // mm/min
+  #define DEFAULT_Y_MAX_RATE 300.0 // mm/min
+  #define DEFAULT_Z_MAX_RATE 300.0 // mm/min
+  #define DEFAULT_X_ACCELERATION (30.0*60*60) // 15*60*60 mm/min^2 = 15 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (30.0*60*60) // 15*60*60 mm/min^2 = 15 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (30.0*60*60) // 15*60*60 mm/min^2 = 15 mm/sec^2
+  #define DEFAULT_X_MAX_TRAVEL 225.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 125.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 170.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_SPINDLE_RPM_MAX 7000.0 // rpm
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 10
+  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS)|(1<<Z_AXIS))
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 250 // msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 3 // WPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.01 // mm
+  #define DEFAULT_ARC_TOLERANCE 0.002 // mm
+  #define DEFAULT_REPORT_INCHES 0 // false
+  #define DEFAULT_INVERT_ST_ENABLE 1 // false
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
+  #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
+  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
+  #define DEFAULT_HOMING_ENABLE 1  // false
+  #define DEFAULT_HOMING_DIR_MASK 1 // move positive dir
+  #define DEFAULT_HOMING_FEED_RATE 100.0 // mm/min
+  #define DEFAULT_HOMING_SEEK_RATE 300.0 // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 3.0 // mm
 #endif
 
 #ifdef DEFAULTS_SHAPEOKO
@@ -121,29 +163,31 @@
   #define DEFAULT_X_ACCELERATION (15.0*60*60) // 15*60*60 mm/min^2 = 15 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (15.0*60*60) // 15*60*60 mm/min^2 = 15 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (15.0*60*60) // 15*60*60 mm/min^2 = 15 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 200.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 200.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 200.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 200.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS)|(1<<Z_AXIS))  
+  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS)|(1<<Z_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
-  #define DEFAULT_INVERT_LIMIT_PINS 0 // false  
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 250.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 1.0 // mm  
+  #define DEFAULT_HOMING_PULLOFF 1.0 // mm
 #endif
 
 #ifdef DEFAULTS_SHAPEOKO_2
@@ -164,29 +208,31 @@
   #define DEFAULT_X_ACCELERATION (250.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (250.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (50.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 290.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 290.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 100.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 290.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 290.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 100.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm  
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK ((1<<X_AXIS)|(1<<Z_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
-  #define DEFAULT_INVERT_LIMIT_PINS 0 // false  
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 250.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 1.0 // mm  
+  #define DEFAULT_HOMING_PULLOFF 1.0 // mm
 #endif
 
 #ifdef DEFAULTS_SHAPEOKO_3
@@ -206,29 +252,31 @@
   #define DEFAULT_X_ACCELERATION (400.0*60*60) // 400*60*60 mm/min^2 = 400 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (400.0*60*60) // 400*60*60 mm/min^2 = 400 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (400.0*60*60) // 400*60*60 mm/min^2 = 400 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 425.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 465.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 425.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 465.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK ((1<<X_AXIS)|(1<<Z_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK 255 // All enabled
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.01 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
-  #define DEFAULT_INVERT_LIMIT_PINS 0 // false  
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 100.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 1000.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 25 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 5.0 // mm  
+  #define DEFAULT_HOMING_PULLOFF 5.0 // mm
 #endif
 
 #ifdef DEFAULTS_X_CARVE_500MM
@@ -249,29 +297,31 @@
   #define DEFAULT_X_ACCELERATION (500.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (500.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (50.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 290.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 290.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 100.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 290.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 290.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 100.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm  
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK ((1<<X_AXIS)|(1<<Y_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
-  #define DEFAULT_INVERT_LIMIT_PINS 0 // false  
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 3 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 750.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 1.0 // mm 
+  #define DEFAULT_HOMING_PULLOFF 1.0 // mm
 #endif
 
 #ifdef DEFAULTS_X_CARVE_1000MM
@@ -292,29 +342,109 @@
   #define DEFAULT_X_ACCELERATION (500.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (500.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (50.0*60*60) // 25*60*60 mm/min^2 = 25 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 740.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 790.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 100.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 740.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 790.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 100.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm  
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK ((1<<X_AXIS)|(1<<Y_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
-  #define DEFAULT_INVERT_LIMIT_PINS 0 // false  
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 3 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 750.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 1.0 // mm 
+  #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+#endif
+
+#ifdef DEFAULTS_BOBSCNC_E3
+  // Grbl settings for Bob's CNC E3 Machine
+  // https://www.bobscnc.com/products/e3-cnc-engraving-kit
+  #define DEFAULT_X_STEPS_PER_MM 80.0
+  #define DEFAULT_Y_STEPS_PER_MM 80.0
+  #define DEFAULT_Z_STEPS_PER_MM 2267.717
+  #define DEFAULT_X_MAX_RATE 10000.0 // mm/min
+  #define DEFAULT_Y_MAX_RATE 10000.0 // mm/min
+  #define DEFAULT_Z_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_X_ACCELERATION (500.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (500.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (300.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_X_MAX_TRAVEL 450.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 390.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 85.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 5
+  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.01 // mm
+  #define DEFAULT_ARC_TOLERANCE 0.002 // mm
+  #define DEFAULT_REPORT_INCHES 1 // true
+  #define DEFAULT_INVERT_ST_ENABLE 0 // false
+  #define DEFAULT_INVERT_LIMIT_PINS 1 // true
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // true
+  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
+  #define DEFAULT_HOMING_ENABLE 1  // true
+  #define DEFAULT_HOMING_DIR_MASK 3 // move xy -dir, z dir
+  #define DEFAULT_HOMING_FEED_RATE 500.0 // mm/min
+  #define DEFAULT_HOMING_SEEK_RATE 4000.0 // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 5.0 // mm
+#endif
+
+#ifdef DEFAULTS_BOBSCNC_E4
+  // Grbl settings for Bob's CNC E4 Machine
+  // https://www.bobscnc.com/products/e4-cnc-router
+  #define DEFAULT_X_STEPS_PER_MM 80.0
+  #define DEFAULT_Y_STEPS_PER_MM 80.0
+  #define DEFAULT_Z_STEPS_PER_MM 2267.717
+  #define DEFAULT_X_MAX_RATE 10000.0 // mm/min
+  #define DEFAULT_Y_MAX_RATE 10000.0 // mm/min
+  #define DEFAULT_Z_MAX_RATE 500.0 // mm/min
+  #define DEFAULT_X_ACCELERATION (500.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (500.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (300.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_X_MAX_TRAVEL 610.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 610.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 85.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 5
+  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.01 // mm
+  #define DEFAULT_ARC_TOLERANCE 0.002 // mm
+  #define DEFAULT_REPORT_INCHES 1 // true
+  #define DEFAULT_INVERT_ST_ENABLE 0 // false
+  #define DEFAULT_INVERT_LIMIT_PINS 1 // true
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // true
+  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
+  #define DEFAULT_HOMING_ENABLE 1  // true
+  #define DEFAULT_HOMING_DIR_MASK 3 // move xy -dir, z dir
+  #define DEFAULT_HOMING_FEED_RATE 500.0 // mm/min
+  #define DEFAULT_HOMING_SEEK_RATE 4000.0 // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 5.0 // mm
 #endif
 
 #ifdef DEFAULTS_ZEN_TOOLWORKS_7x7
@@ -333,23 +463,25 @@
   #define DEFAULT_X_ACCELERATION (600.0*60*60) // 600*60*60 mm/min^2 = 600 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (600.0*60*60) // 600*60*60 mm/min^2 = 600 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (600.0*60*60) // 600*60*60 mm/min^2 = 600 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 190.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 180.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 150.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 190.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 180.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 150.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 10000.0 // rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm  
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS))  
+  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<Y_AXIS))
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
-  #define DEFAULT_INVERT_LIMIT_PINS 0 // false  
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
@@ -370,16 +502,16 @@
   #define DEFAULT_X_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (10.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 500.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 750.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 500.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 750.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm  
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK 0
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
@@ -387,6 +519,8 @@
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
@@ -407,16 +541,16 @@
   #define DEFAULT_X_ACCELERATION (100.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
   #define DEFAULT_Y_ACCELERATION (100.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
   #define DEFAULT_Z_ACCELERATION (100.0*60*60) // 10*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 1000.0 // mm
-  #define DEFAULT_Y_MAX_TRAVEL 1000.0 // mm
-  #define DEFAULT_Z_MAX_TRAVEL 1000.0 // mm
+  #define DEFAULT_X_MAX_TRAVEL 1000.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 1000.0 // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 1000.0 // mm NOTE: Must be a positive value.
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
   #define DEFAULT_DIRECTION_INVERT_MASK 0
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.01 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
@@ -424,6 +558,8 @@
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 0  // false
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
